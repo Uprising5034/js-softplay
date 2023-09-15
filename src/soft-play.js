@@ -1,14 +1,18 @@
-// TODO: Changing rules for multiple play centres
-//        - What kind of rules can we have?
+/*
+TODO: Changing rules for multiple play centres
+       - What kind of rules can we have?
             - Entering
               - Adult to children ratio
-              - Minimu
+              - Minimum adult count
+              - Maximum child count
             - Leaving
               - Adult to children ration
-            - Adult to children ratio inside the building
-            - Maximum totalPop occupancy
-            - Minimum & Maximum adult occupancy
-            - Maximum child occupancy
+              - Minimum adult count
+            - Occupancy
+              - Adult to children ratio inside the building
+              - Maximum totalPop occupancy
+              - Minimum & Maximum adult occupancy
+              - Maximum child occupancy
 */
 
 const playCentre = {
