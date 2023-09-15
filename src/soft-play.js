@@ -1,61 +1,92 @@
-// do not change these lines
-let adults = 0
-let children = 0
+/* TODO: Multiple Play Centres
+          - {
+            centre1: {
+              adults: 0,
+              children: 0
+            },
+            centre2: {
+              adults: 0,
+              children: 0
+            }
+            ...
+          }
+// TODO: Changing rules for multiple play centres
+//        - What kind of rules can we have?
+            - Entering
+              - Adult to children ratio
+              - Minimu
+            - Leaving
+              - Adult to children ration
+            - Adult to children ratio inside the building
+            - Maximum totalPop occupancy
+            - Minimum & Maximum adult occupancy
+            - Maximum child occupancy
+*/
 
-// TODO: Write your functions in the below section. Your functions should update
-// the adults and children variables defined above.
-// Start with the occupancy function.
+const playCentre = {
+  1: {
+    occupancy: { adults: 0, children: 0 },
+    totalPop: { adults: 0, children: 0 },
+    rules: {}
+  },
+  2: {
+    occupancy: { adults: 0, children: 0 },
+    totalPop: { adults: 0, children: 0 },
+    rules: {}
+  },
+  3: {
+    occupancy: { adults: 0, children: 0 },
+    totalPop: { adults: 0, children: 0 },
+    rules: {}
+  }
+}
 
-let totalAdult = 0
-let totalChildren = 0
-
-function enter(numAdults, numChildren) {
+function enter(centreNo, numAdults, numChildren) {
   let validInput = false
+  const currentPop = retrieve(centreNo, 'occupancy')
+  const totalPop = retrieve(centreNo, 'totalPop')
   if (numAdults >= numChildren) {
-    adults += numAdults
-    children += numChildren
-    totalAdult += numAdults
-    totalChildren += numChildren
+    currentPop.adults += numAdults
+    currentPop.children += numChildren
+    totalPop.adults += numAdults
+    totalPop.children += numChildren
     validInput = true
   }
   return validInput
 }
 
-function leave(numAdults, numChildren) {
+function leave(centreNo, numAdults, numChildren) {
   let validInput = false
-  const checkAdults = adults - numAdults
-  const checkChildren = children - numChildren
+  const currentPop = retrieve(centreNo, 'occupancy')
+
+  // rules
+  const checkAdults = currentPop.adults - numAdults
+  const checkChildren = currentPop.children - numChildren
   if (
-    numAdults <= occupancy().adults && // Case 4
-    numChildren <= occupancy().children && // Case 4
+    numAdults <= currentPop.adults && // Case 4
+    numChildren <= currentPop.children && // Case 4
     numAdults >= numChildren && // Case 1, Case 3
     checkAdults >= checkChildren // Case 2
   ) {
-    adults -= numAdults
-    children -= numChildren
+    currentPop.adults -= numAdults
+    currentPop.children -= numChildren
     validInput = true
   }
   return validInput
 }
 
-function occupancy() {
-  return {
-    adults: adults,
-    children: children
-  }
+function retrieve(centreNo, centreProperty) {
+  return playCentre[centreNo][centreProperty]
 }
 
-function total() {
-  return {
-    adults: totalAdult,
-    children: totalChildren
-  }
-}
+enter(1, 2, 2)
+enter(3, 4, 4)
+leave(3, 1, 1)
+console.log('playCentre :', playCentre)
 
-// TODO: Change the undefined values below to the name of your functions
-module.exports = {
-  enter: enter,
-  leave: leave,
-  occupancy: occupancy,
-  total: total
-}
+// module.exports = {
+//   enter: enter,
+//   leave: leave,
+//   occupancy: occupancy,
+//   totalPop: totalPop
+// }
