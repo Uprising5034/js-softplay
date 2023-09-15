@@ -19,7 +19,32 @@ const playCentre = {
   1: {
     occupancy: { adults: 0, children: 0 },
     totalPop: { adults: 0, children: 0 },
-    rules: {}
+    rules: {
+      enter: {
+        minAdults: 1,
+        maxAdults: 4,
+        minChildren: 0,
+        maxChildren: 4,
+        maxTotal: 8,
+        childToAdultRatio: 2
+      },
+      leave: {
+        minAdults: 1,
+        maxAdults: 4,
+        minChildren: 0,
+        maxChildren: 4,
+        maxTotal: null,
+        childToAdultRatio: 2
+      },
+      occupancy: {
+        minAdults: 1,
+        maxAdults: 4,
+        minChildren: 0,
+        maxChildren: 4,
+        maxTotal: 80,
+        childToAdultRatio: 2
+      }
+    }
   },
   2: {
     occupancy: { adults: 0, children: 0 },
@@ -71,10 +96,38 @@ function retrieve(centreNo, centreProperty) {
   return playCentre[centreNo][centreProperty]
 }
 
-enter(1, 2, 2)
-enter(3, 4, 4)
-leave(3, 1, 1)
-console.log('playCentre :', playCentre)
+function bouncer(centreNo, rulesCategory, numAdults, numChildren) {
+  const rules = retrieve(centreNo, 'rules')
+
+  const rulesCategoryLower = rulesCategory.toLowerCase()
+  const validRules = Object.keys(rules)
+  if (!validRules.includes(rulesCategoryLower)) {
+    throw RangeError(
+      `${rulesCategory} is not a valid rules category, please pick from the following: ${validRules}`
+    )
+  }
+
+  const currentRule = rules[rulesCategoryLower]
+  const occupancyRule = rules.occupancy
+
+  console.log('currentRule', currentRule)
+  // Enter rules
+  if (
+    (currentRule.minAdults <= numAdults || currentRule.minAdults === null) &&
+    (currentRule.maxAdults >= numAdults || currentRule.maxAdults === null) &&
+    (currentRule.minChildren <= numChildren ||
+      currentRule.minChildren === null) &&
+    (currentRule.maxChildren >= numChildren ||
+      currentRule.maxChildren === null) &&
+    (currentRule.maxTotal >= numAdults + numChildren ||
+      currentRule.maxTotal === null) &&
+    (currentRule.childToAdultRatio * numAdults >= numChildren ||
+      currentRule.childToAdultRatio === null)
+  ) {
+    console.log('all statements true')
+  }
+}
+bouncer(1, 'enter', 2, 4)
 
 // module.exports = {
 //   enter: enter,
