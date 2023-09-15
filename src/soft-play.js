@@ -1,15 +1,3 @@
-/* TODO: Multiple Play Centres
-          - {
-            centre1: {
-              adults: 0,
-              children: 0
-            },
-            centre2: {
-              adults: 0,
-              children: 0
-            }
-            ...
-          }
 // TODO: Changing rules for multiple play centres
 //        - What kind of rules can we have?
             - Entering
